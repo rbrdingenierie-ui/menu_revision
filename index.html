@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="https://rbrdingenierie-ui.github.io/accueil_outils/favicon.svg">
+<link rel="apple-touch-icon" href="https://rbrdingenierie-ui.github.io/accueil_outils/favicon.svg">
+<title>Votre espace de révision — Accueil</title>
+<style>
+  :root {
+    --navy: #1F3864;
+    --navy-soft: #4A5C82;
+    --orange: #E0591F;
+    --orange-soft: #FBEAE3;
+    --teal: #12796B;
+    --teal-soft: #E3F3F1;
+    --gold: #B08D57;
+    --bg: #F7F8FA;
+    --white: #FFFFFF;
+    --track: #8592B0;
+    --a11y-scale: 1;
+  }
+
+  * { box-sizing: border-box; }
+
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--navy) !important; outline-offset: 2px; }
+
+  .skip-link {
+    position:absolute; left:-9999px; top:0; z-index:1000;
+    background:var(--navy); color:#FFFFFF; font-family:inherit; font-weight:700; font-size:14px;
+    padding:12px 20px; border-radius:0 0 10px 0; text-decoration:none;
+  }
+  .skip-link:focus { left:0; }
+
+  .a11y-bar {
+    display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
+    background:var(--white); border:2px solid var(--track); border-radius:14px;
+    padding:12px 16px; margin-bottom:24px;
+  }
+  .a11y-bar-label { font-size:13px; font-weight:800; color:var(--navy); margin-right:4px; }
+  .a11y-toggle-btn {
+    font-family:inherit; font-size:13px; font-weight:700; color:var(--navy-soft);
+    background:var(--white); border:2px solid var(--track); border-radius:999px;
+    padding:8px 14px; cursor:pointer;
+  }
+  .a11y-toggle-btn:hover { border-color:var(--navy-soft); }
+  .a11y-toggle-btn[aria-pressed="true"] { background:var(--navy); border-color:var(--navy); color:#FFFFFF; }
+  .a11y-size-group { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:var(--navy); }
+  .a11y-size-group button {
+    font-family:inherit; font-weight:800; font-size:14px; color:var(--navy);
+    background:var(--white); border:2px solid var(--navy-soft); border-radius:8px;
+    width:34px; height:34px; cursor:pointer;
+  }
+  .a11y-size-group button:hover { border-color:var(--navy); }
+
+  body.a11y-font, body.a11y-font * { font-family: Verdana, Geneva, sans-serif !important; }
+  /* les popups de celebration gardent la police d'origine, plus chaleureuse visuellement */
+  body.a11y-font .finale-content, body.a11y-font .finale-content * { font-family: Arial, Helvetica, sans-serif !important; }
+
+  .falc-simple-content { display:none; }
+  body.falc-mode .falc-normal-content { display:none; }
+  body.falc-mode .falc-simple-content { display:block; }
+
+  html, body { margin:0; padding:0; background:var(--bg); font-family: Arial, Helvetica, sans-serif; color:var(--navy); }
+  body { display:flex; justify-content:center; padding:40px 16px 60px; }
+  .page { width:100%; max-width:720px; }
+
+  body.a11y-contrast { background:#FFFFFF; }
+  body.a11y-contrast .page { color:#000000; }
+  body.a11y-contrast .welcome-message,
+  body.a11y-contrast .badges-title,
+  body.a11y-contrast .badge-name,
+  body.a11y-contrast .loading-msg { color:#000000 !important; }
+  body.a11y-contrast .account-panel,
+  body.a11y-contrast .badge-icon,
+  body.a11y-contrast .account-logout-btn { border-color:#000000 !important; }
+
+  .loading-msg { text-align:center; color:var(--navy-soft); font-size:15px; padding:60px 0; }
+
+  .account-panel {
+    background:var(--white); border:2px solid var(--track); border-radius:18px;
+    padding:26px 24px; margin-bottom:24px;
+  }
+
+  .welcome-hero { text-align:center; }
+  .welcome-character { width:200px; max-width:60%; margin:0 auto 14px; }
+  .welcome-character svg { width:100%; height:auto; display:block; }
+
+  .sparkle {
+    opacity:0.3; transform-origin:center; transform-box:fill-box;
+    animation:sparkle-twinkle 2.4s ease-in-out infinite;
+  }
+  .sparkle-1 { animation-delay:0s; }
+  .sparkle-2 { animation-delay:0.5s; }
+  .sparkle-3 { animation-delay:1s; }
+  .sparkle-4 { animation-delay:1.5s; }
+  .sparkle-5 { animation-delay:0.3s; }
+  .sparkle-6 { animation-delay:0.8s; }
+  .sparkle-7 { animation-delay:1.3s; }
+  .sparkle-8 { animation-delay:1.9s; }
+  .sparkle-9 { animation-delay:2.15s; }
+  @keyframes sparkle-twinkle {
+    0%, 100% { opacity:0.3; transform:scale(0.85); }
+    50% { opacity:1; transform:scale(1.15); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sparkle { animation:none; opacity:0.85; }
+  }
+
+  :root { --mentor-head-anim:mentor-head-talk; --mentor-hand-anim:mentor-hand-talk; }
+  .tool-card-character { --mentor-head-anim:none; --mentor-hand-anim:none; }
+  .mentor-head-group {
+    transform-box:view-box; transform-origin:340px 330px;
+    animation:var(--mentor-head-anim) 4s ease-in-out infinite;
+  }
+  @keyframes mentor-head-talk {
+    0%, 100% { transform:rotate(0deg); }
+    25% { transform:rotate(-6deg); }
+    75% { transform:rotate(6deg); }
+  }
+  .mentor-hand-wave {
+    transform-box:view-box; transform-origin:440px 368px;
+    animation:var(--mentor-hand-anim) 4s ease-in-out infinite;
+  }
+  @keyframes mentor-hand-talk {
+    0%, 100% { transform:rotate(0deg); }
+    30% { transform:rotate(-16deg); }
+    70% { transform:rotate(13deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mentor-head-group, .mentor-hand-wave { animation:none; }
+  }
+  .welcome-message {
+    font-size: calc(16px * var(--a11y-scale)); color:var(--navy);
+    line-height:1.6; max-width:460px; margin:0 auto; font-weight:700;
+  }
+
+  .welcome-actions { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:18px; }
+  .tts-btn, .mute-btn {
+    font-family:inherit; font-size:calc(13px * var(--a11y-scale)); font-weight:700;
+    border-radius:999px; padding:9px 18px; cursor:pointer; min-height:24px;
+  }
+  .tts-btn { color:var(--teal); background:var(--teal-soft); border:2px solid var(--teal); }
+  .tts-btn:hover { background:var(--teal); color:#FFFFFF; }
+  .tts-btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .mute-btn { color:#C0392B; background:#FBEAE7; border:2px solid #C0392B; }
+  .mute-btn:hover { background:#C0392B; color:#FFFFFF; }
+
+  .tools-section-title {
+    font-size:calc(19px * var(--a11y-scale)); font-weight:800; color:var(--navy);
+    text-align:center; margin-bottom:6px;
+  }
+  .tools-section-subtitle {
+    font-size:calc(14px * var(--a11y-scale)); color:var(--navy-soft);
+    text-align:center; margin-bottom:20px;
+  }
+  .tools-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(155px, 1fr));
+    gap:12px; margin-bottom:20px;
+  }
+  .tool-card {
+    position:relative; border-radius:18px; padding:16px 14px; overflow:hidden;
+    display:flex; flex-direction:column; min-height:180px;
+    background:
+      radial-gradient(280px 200px at 100% -15%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 60%),
+      linear-gradient(135deg, #2A4778 0%, #1F3864 48%, #101F3C 100%);
+  }
+  .sr-only {
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .tool-card-number {
+    position:absolute; top:12px; left:12px; width:26px; height:26px; border-radius:50%;
+    background:var(--gold); color:#101F3C; font-weight:800; font-size:13px; font-family:Arial, sans-serif;
+    display:flex; align-items:center; justify-content:center; z-index:3; line-height:1;
+  }
+  .tool-card-character {
+    position:absolute; bottom:-14px; right:-16px; width:92px; height:92px; z-index:1; opacity:0.95;
+  }
+  .tool-card-body { position:relative; z-index:2; padding-top:26px; flex:1; display:flex; flex-direction:column; }
+  .tool-card-icon { font-size:24px; margin-bottom:4px; display:block; }
+  .tool-card-name { font-size:calc(15.5px * var(--a11y-scale)); font-weight:800; color:#FFFFFF; margin-bottom:6px; line-height:1.2; }
+  .tool-card-desc {
+    font-size:calc(12.5px * var(--a11y-scale)); color:rgba(255,255,255,0.85);
+    line-height:1.45; margin-bottom:14px; flex:1;
+  }
+  .tool-card-cta {
+    display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
+    font-size:calc(12.5px * var(--a11y-scale)); font-weight:700;
+    color:#FFFFFF; background:var(--orange); border-radius:999px; padding:9px 16px;
+    text-decoration:none; min-height:24px; position:relative; z-index:2;
+  }
+  .tool-card-cta:hover { filter:brightness(1.12); }
+  .tool-card.tool-card-soon .tool-card-cta {
+    background:rgba(255,255,255,0.16); color:rgba(255,255,255,0.80); cursor:default; pointer-events:none;
+  }
+  body.a11y-contrast .tool-card { background:#000000; border:2px solid #FFFFFF; }
+  body.a11y-contrast .tool-card-number { background:#FFFFFF; color:#000000; border:2px solid #000000; }
+
+  .feedback-card {
+    position:relative; border-radius:18px; padding:20px 20px 18px; margin-bottom:24px; overflow:hidden;
+    background:linear-gradient(135deg, #1B8577 0%, #12796B 55%, #0A5449 100%);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .feedback-card-icon { font-size:26px; flex-shrink:0; }
+  .feedback-card-text { flex:1; min-width:180px; }
+  .feedback-card-title { font-size:calc(15px * var(--a11y-scale)); font-weight:800; color:#FFFFFF; margin-bottom:3px; }
+  .feedback-card-desc { font-size:calc(12.5px * var(--a11y-scale)); color:rgba(255,255,255,0.85); }
+  .feedback-card-cta {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:calc(12.5px * var(--a11y-scale)); font-weight:700;
+    color:var(--teal); background:#FFFFFF; border-radius:999px; padding:9px 16px;
+    text-decoration:none; min-height:24px; flex-shrink:0;
+  }
+  .feedback-card-cta:hover { filter:brightness(0.95); }
+  body.a11y-contrast .feedback-card { background:#000000; border:2px solid #FFFFFF; }
+
+  .badges-panel { background:var(--white); border:2px solid var(--track); border-radius:18px; padding:22px; margin-bottom:24px; }
+  .badges-title { font-size:calc(15px * var(--a11y-scale)); font-weight:800; color:var(--navy); margin-bottom:16px; text-align:center; }
+
+  .welcome-badge-row { display:flex; justify-content:center; margin-bottom:18px; padding-bottom:18px; border-bottom:2px solid var(--bg); }
+  .welcome-badge-row .badge-item { width:84px; }
+  .badges-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap:10px; }
+  .badge-item { display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px; padding:10px 4px; border-radius:12px; background:var(--bg); min-width:0; }
+  .badge-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--white); border:2px solid var(--track); }
+  .badge-item.unlocked .badge-icon { background:#F5EEE3; border-color:var(--gold); }
+  .badge-item.locked .badge-icon { filter:grayscale(1); opacity:0.45; }
+  .badge-name { font-size:calc(11.5px * var(--a11y-scale)); font-weight:700; color:var(--navy); line-height:1.3; width:100%; overflow-wrap:break-word; word-break:break-word; hyphens:auto; }
+  .badge-item.locked .badge-name { color:var(--navy-soft); opacity:0.75; }
+  .badge-item { cursor:pointer; }
+  .badge-item.selected { outline:3px solid var(--navy); outline-offset:2px; }
+
+  /* description du badge : accessible au clic ET au doigt (le survol seul ne marche pas sur mobile) */
+  .badge-desc-hint { font-size:calc(12px * var(--a11y-scale)); color:var(--navy-soft); text-align:center; margin:14px 0 0; font-style:italic; }
+  .badge-desc-panel {
+    display:none; margin-top:14px; padding:14px 16px; border-radius:12px;
+    background:var(--bg); border:2px solid var(--gold); text-align:left;
+  }
+  .badge-desc-panel.show { display:block; }
+  .badge-desc-title { font-size:calc(13.5px * var(--a11y-scale)); font-weight:800; color:var(--navy); margin-bottom:5px; }
+  .badge-desc-text { font-size:calc(12.5px * var(--a11y-scale)); color:var(--navy-soft); line-height:1.5; }
+  .badge-desc-state { font-size:calc(12px * var(--a11y-scale)); font-weight:700; margin-top:6px; }
+  .badge-desc-state.unlocked { color:var(--vert); }
+  .badge-desc-state.locked { color:var(--navy-soft); }
+  .badge-desc-close {
+    display:none; float:right; margin:-4px -4px 0 8px;
+    font-family:inherit; font-size:18px; font-weight:800; line-height:1;
+    color:var(--navy-soft); background:none; border:none; cursor:pointer;
+    min-width:36px; min-height:36px;
+  }
+  .badge-desc-close:hover { color:var(--navy); }
+  body.a11y-contrast .badge-desc-panel { background:#FFFFFF; border-color:#000000; }
+  body.a11y-contrast .badge-desc-text, body.a11y-contrast .badge-desc-state { color:#000000 !important; }
+
+  /* sur petit ecran, la description reste ancree en bas : avec 42 badges,
+     il faudrait sinon faire defiler tres loin pour la lire */
+  @media (max-width: 700px) {
+    .badge-desc-panel.show {
+      position:fixed; left:10px; right:10px; bottom:10px; z-index:1200;
+      margin-top:0; box-shadow:0 6px 24px rgba(31,56,100,0.28);
+      border-width:3px; max-height:42vh; overflow-y:auto;
+    }
+    .badge-desc-close { display:block; }
+  }
+  .badge-item.newly-unlocked .badge-icon { animation: badge-pop 0.7s ease; }
+  @keyframes badge-pop { 0% { transform:scale(0.6); } 50% { transform:scale(1.25); } 100% { transform:scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .badge-item.newly-unlocked .badge-icon { animation:none; } }
+
+  .account-utility-row { text-align:center; }
+  .account-logout-btn {
+    font-family:inherit; font-size:calc(13px * var(--a11y-scale)); font-weight:700;
+    color:var(--navy-soft); background:var(--bg); border:2px solid var(--track);
+    border-radius:999px; padding:8px 16px; cursor:pointer; min-height:24px;
+  }
+  .account-logout-btn:hover { border-color:var(--navy-soft); }
+
+  footer { text-align:center; font-size:calc(12px * var(--a11y-scale)); color:var(--navy-soft); margin-top:32px; }
+
+  /* ---------- celebration finale (tous les badges debloques) ---------- */
+  .finale-overlay {
+    position: fixed; inset: 0; background: rgba(10, 15, 30, 0.92);
+    display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+  }
+  .finale-overlay.show { display: flex; }
+  .finale-fireworks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .finale-content {
+    position: relative; background: var(--white); border-radius: 24px; padding: 40px 28px;
+    max-width: 420px; text-align: center; z-index: 1;
+  }
+  .finale-emoji { font-size: 48px; }
+
+  .save-indicator {
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(12px);
+    background:var(--vert-soft, #E4F3EA); color:var(--vert, #277649); border:2px solid var(--vert, #277649);
+    border-radius:999px; padding:9px 20px; font-size:13.5px; font-weight:700;
+    opacity:0; pointer-events:none; transition:opacity 0.25s ease, transform 0.25s ease; z-index:1500;
+  }
+  .save-indicator.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .save-indicator { transition:none; } }
+  .welcome-badge-char { width:150px; max-width:60%; margin:0 auto 8px; }
+
+  /* liste des badges venant d'etre obtenus, dans le popup de felicitations */
+  .new-badge-list { display:flex; flex-direction:column; gap:8px; margin:4px 0 18px; }
+  .new-badge-line {
+    display:flex; align-items:center; gap:10px; justify-content:center;
+    background:#FFF6E0; border:2px solid var(--gold); border-radius:12px; padding:10px 14px;
+  }
+  .new-badge-icon { font-size:26px; flex-shrink:0; }
+  .new-badge-texts { text-align:left; min-width:0; }
+  .new-badge-name { font-size:calc(14px * var(--a11y-scale)); font-weight:800; color:var(--navy); }
+  .new-badge-desc { font-size:calc(12px * var(--a11y-scale)); color:var(--navy-soft); line-height:1.4; margin-top:2px; }
+  body.a11y-contrast .new-badge-line { background:#FFFFFF; border-color:#000000; }
+  .welcome-badge-char svg { width:100%; height:auto; display:block; }
+  .finale-message {
+    font-size: calc(18px * var(--a11y-scale)); font-weight: 800; color: var(--navy);
+    line-height: 1.55; margin: 18px 0 26px;
+  }
+  .finale-close {
+    font-family: inherit; font-size: calc(15px * var(--a11y-scale)); font-weight: 700; color: #FFFFFF;
+    background: var(--navy); border: none; border-radius: 999px; padding: 13px 30px; cursor: pointer; min-height: 44px;
+  }
+  .finale-close:hover { filter: brightness(1.15); }
+
+  .firework-particle {
+    transform-origin: center;
+    animation: firework-burst 1.3s ease-out forwards;
+  }
+  @keyframes firework-burst {
+    0% { transform: scale(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .firework-particle { animation: none; opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute; width:0; height:0; overflow:hidden;" aria-hidden="true">
+  <symbol id="mentorChar" viewBox="0 0 680 620">
+<defs>
+<radialGradient id="glowSym" cx="50%" cy="35%" r="65%">
+<stop offset="0%" stop-color="#FFF6E0"/>
+<stop offset="100%" stop-color="#FFF6E0" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<circle cx="340" cy="260" r="230" fill="url(#glowSym)"/>
+<ellipse cx="340" cy="580" rx="150" ry="20" fill="#1F3864" opacity="0.08"/>
+<path d="M240 430 Q240 330 340 330 Q440 330 440 430 L455 590 Q455 600 445 600 L235 600 Q225 600 225 590 Z" fill="#1F3864"/>
+<path d="M300 350 Q340 365 380 350 L392 600 L288 600 Z" fill="#16294D"/>
+<circle cx="320" cy="380" r="5" fill="#B08D57"/>
+<circle cx="320" cy="410" r="5" fill="#B08D57"/>
+<circle cx="320" cy="440" r="5" fill="#B08D57"/>
+<path d="M240 360 Q195 380 180 470 Q178 485 190 490 L215 495 Q225 497 228 485 L240 420" fill="#1F3864"/>
+<path d="M228 485 Q235 505 258 505 Q278 503 280 483 Q281 470 262 468 Q245 467 238 478 Z" fill="#E8B892"/>
+<g class="mentor-hand-wave">
+<path d="M440 360 Q470 375 462 420 Q458 445 430 452 Q405 458 400 435" fill="#16294D"/>
+</g>
+<g class="mentor-head-group">
+<circle cx="340" cy="255" r="88" fill="#F0C49A"/>
+<path d="M255 235 Q252 160 340 155 Q428 160 425 235 Q425 200 340 195 Q255 200 255 235 Z" fill="#DADEE3"/>
+<path d="M255 225 Q248 260 262 290" fill="none" stroke="#DADEE3" stroke-width="14" stroke-linecap="round"/>
+<path d="M425 225 Q432 260 418 290" fill="none" stroke="#DADEE3" stroke-width="14" stroke-linecap="round"/>
+<circle cx="303" cy="260" r="22" fill="none" stroke="#B08D57" stroke-width="4"/>
+<circle cx="377" cy="260" r="22" fill="none" stroke="#B08D57" stroke-width="4"/>
+<line x1="325" y1="258" x2="355" y2="258" stroke="#B08D57" stroke-width="4"/>
+<line x1="281" y1="256" x2="270" y2="252" stroke="#B08D57" stroke-width="4"/>
+<line x1="399" y1="256" x2="410" y2="252" stroke="#B08D57" stroke-width="4"/>
+<circle cx="303" cy="260" r="4" fill="#3A2A1E"/>
+<circle cx="377" cy="260" r="4" fill="#3A2A1E"/>
+<path d="M290 240 Q303 232 316 240" fill="none" stroke="#8A6642" stroke-width="3" stroke-linecap="round"/>
+<path d="M364 240 Q377 232 390 240" fill="none" stroke="#8A6642" stroke-width="3" stroke-linecap="round"/>
+<path d="M300 300 Q340 322 380 300" fill="none" stroke="#B5754A" stroke-width="4" stroke-linecap="round"/>
+<path d="M258 300 Q262 340 300 355 Q340 368 380 355 Q418 340 422 300" fill="#DADEE3"/>
+<path d="M270 200 Q260 175 275 155" fill="none" stroke="#DADEE3" stroke-width="10" stroke-linecap="round"/>
+<path d="M410 200 Q420 175 405 155" fill="none" stroke="#DADEE3" stroke-width="10" stroke-linecap="round"/>
+<circle cx="340" cy="140" r="10" fill="#B08D57"/>
+<path d="M340 130 L344 118 L336 118 Z" fill="#B08D57"/>
+</g>
+  </symbol>
+</svg>
+
+<a href="#main" class="skip-link">Aller directement au contenu</a>
+
+<div class="page">
+  <div class="a11y-bar" role="region" aria-label="Options d'accessibilité">
+    <span class="a11y-bar-label">♿ Accessibilité</span>
+    <button type="button" id="a11yFontBtn" class="a11y-toggle-btn" aria-pressed="false">🔤 Police adaptée</button>
+    <button type="button" id="a11yContrastBtn" class="a11y-toggle-btn" aria-pressed="false">◐ Contraste renforcé</button>
+    <button type="button" id="falcModeBtn" class="a11y-toggle-btn" aria-pressed="false" title="Facile à Lire et à Comprendre : simplifie le texte de la page">📖 Mode FALC</button>
+    <button type="button" id="hoverReadBtn" class="a11y-toggle-btn" aria-pressed="false" title="Lit à voix haute le nom et la description de chaque outil quand la souris passe dessus">🔊 Lecture au survol</button>
+    <div class="a11y-size-group" role="group" aria-label="Taille du texte">
+      <span>Taille du texte</span>
+      <button type="button" id="a11ySizeDown" aria-label="Réduire la taille du texte">A−</button>
+      <button type="button" id="a11ySizeReset" aria-label="Taille du texte par défaut">A</button>
+      <button type="button" id="a11ySizeUp" aria-label="Agrandir la taille du texte">A+</button>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <div id="loadingMsg" class="loading-msg">Vérification de votre connexion… Patientez <span aria-hidden="true">⏳</span></div>
+
+    <div id="pageContent" hidden>
+      <div class="account-panel">
+        <div class="welcome-hero">
+          <div class="welcome-character" aria-hidden="true">
+            <svg viewBox="0 0 680 620" role="img"><title>Le maître des révisions vous accueille</title>
+<defs>
+<radialGradient id="glow" cx="50%" cy="35%" r="65%">
+<stop offset="0%" stop-color="#FFF6E0"/>
+<stop offset="100%" stop-color="#FFF6E0" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<circle cx="340" cy="260" r="230" fill="url(#glow)"/>
+<g>
+<path class="sparkle sparkle-1" d="M120 90 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6 z" fill="#B08D57"/>
+<path class="sparkle sparkle-2" d="M560 130 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5 z" fill="#B08D57"/>
+<path class="sparkle sparkle-3" d="M100 320 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4 z" fill="#E0591F"/>
+<path class="sparkle sparkle-4" d="M580 340 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5 z" fill="#168F7F"/>
+<path class="sparkle sparkle-5" d="M170 480 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4 z" fill="#B08D57"/>
+<path class="sparkle sparkle-6" d="M60 200 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5 z" fill="#8A5CB0"/>
+<path class="sparkle sparkle-7" d="M610 230 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 z" fill="#E0591F"/>
+<path class="sparkle sparkle-8" d="M540 460 l6 15 15 6 -15 6 -6 15 -6 -15 -15 -6 15 -6 z" fill="#168F7F"/>
+<path class="sparkle sparkle-9" d="M90 430 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z" fill="#B08D57"/>
+</g>
+<ellipse cx="340" cy="580" rx="150" ry="20" fill="#1F3864" opacity="0.08"/>
+<path d="M240 430 Q240 330 340 330 Q440 330 440 430 L455 590 Q455 600 445 600 L235 600 Q225 600 225 590 Z" fill="#1F3864"/>
+<path d="M300 350 Q340 365 380 350 L392 600 L288 600 Z" fill="#16294D"/>
+<circle cx="320" cy="380" r="5" fill="#B08D57"/>
+<circle cx="320" cy="410" r="5" fill="#B08D57"/>
+<circle cx="320" cy="440" r="5" fill="#B08D57"/>
+<path d="M240 360 Q195 380 180 470 Q178 485 190 490 L215 495 Q225 497 228 485 L240 420" fill="#1F3864"/>
+<path d="M228 485 Q235 505 258 505 Q278 503 280 483 Q281 470 262 468 Q245 467 238 478 Z" fill="#E8B892"/>
+<g class="mentor-hand-wave">
+<path d="M440 360 Q470 375 462 420 Q458 445 430 452 Q405 458 400 435" fill="#16294D"/>
+</g>
+<g class="mentor-head-group">
+<circle cx="340" cy="255" r="88" fill="#F0C49A"/>
+<path d="M255 235 Q252 160 340 155 Q428 160 425 235 Q425 200 340 195 Q255 200 255 235 Z" fill="#DADEE3"/>
+<path d="M255 225 Q248 260 262 290" fill="none" stroke="#DADEE3" stroke-width="14" stroke-linecap="round"/>
+<path d="M425 225 Q432 260 418 290" fill="none" stroke="#DADEE3" stroke-width="14" stroke-linecap="round"/>
+<circle cx="303" cy="260" r="22" fill="none" stroke="#B08D57" stroke-width="4"/>
+<circle cx="377" cy="260" r="22" fill="none" stroke="#B08D57" stroke-width="4"/>
+<line x1="325" y1="258" x2="355" y2="258" stroke="#B08D57" stroke-width="4"/>
+<line x1="281" y1="256" x2="270" y2="252" stroke="#B08D57" stroke-width="4"/>
+<line x1="399" y1="256" x2="410" y2="252" stroke="#B08D57" stroke-width="4"/>
+<circle cx="303" cy="260" r="4" fill="#3A2A1E"/>
+<circle cx="377" cy="260" r="4" fill="#3A2A1E"/>
+<path d="M290 240 Q303 232 316 240" fill="none" stroke="#8A6642" stroke-width="3" stroke-linecap="round"/>
+<path d="M364 240 Q377 232 390 240" fill="none" stroke="#8A6642" stroke-width="3" stroke-linecap="round"/>
+<path d="M300 300 Q340 322 380 300" fill="none" stroke="#B5754A" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="280" cy="285" rx="12" ry="8" fill="#E8A87C" opacity="0.5"/>
+<ellipse cx="400" cy="285" rx="12" ry="8" fill="#E8A87C" opacity="0.5"/>
+<path d="M258 300 Q262 340 300 355 Q340 368 380 355 Q418 340 422 300" fill="#DADEE3"/>
+<path d="M270 200 Q260 175 275 155" fill="none" stroke="#DADEE3" stroke-width="10" stroke-linecap="round"/>
+<path d="M410 200 Q420 175 405 155" fill="none" stroke="#DADEE3" stroke-width="10" stroke-linecap="round"/>
+<circle cx="340" cy="140" r="10" fill="#B08D57"/>
+<path d="M340 130 L344 118 L336 118 Z" fill="#B08D57"/>
+</g>
+</svg>
+          </div>
+          <div class="falc-normal-content"><p class="welcome-message" id="welcomeMessageNormal"></p></div>
+          <div class="falc-simple-content"><p class="welcome-message" id="welcomeMessageSimple"></p></div>
+          <div class="welcome-actions">
+            <button type="button" class="mute-btn" id="muteBtn">🔇 Couper le son</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools-section-title" id="toolsSection">🗺️ Vos outils de révision</div>
+      <div class="tools-section-subtitle">Dans l'ordre le plus efficace, du cours à la révision active</div>
+
+      <div class="tools-grid">
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 1 : </span>1</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">✅</span>
+            <div class="tool-card-name">ToDo List</div>
+            <p class="tool-card-desc">Listez vos tâches de révision et cochez-les au fur et à mesure.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/liste_taches/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 2 : </span>2</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">📅</span>
+            <div class="tool-card-name">Agenda de révision</div>
+            <p class="tool-card-desc">Planifiez vos révisions espacées : J+1, J+3, J+7...</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/agenda_revision/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 3 : </span>3</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🗓️</span>
+            <div class="tool-card-name">Planning hebdomadaire</div>
+            <p class="tool-card-desc">Répartissez vos révisions sur la semaine, matière par matière.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/planning_hebdomadaire/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 4 : </span>4</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">📝</span>
+            <div class="tool-card-name">Fiche studiométrique</div>
+            <p class="tool-card-desc">Listez vos notions, ravivez celles à réviser au bon moment.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/fiche_studiometrique/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 5 : </span>5</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">⏱️</span>
+            <div class="tool-card-name">Minuteur visuel</div>
+            <p class="tool-card-desc">Travaillez par cycles courts pour rester concentré·e, façon Pomodoro.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/minuteur_visuel/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 6 : </span>6</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🃏</span>
+            <div class="tool-card-name">Flashcards</div>
+            <p class="tool-card-desc">Fabriquez vos propres cartes de révision, question au recto, réponse au verso.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/flashcards_conception/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 7 : </span>7</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🧠</span>
+            <div class="tool-card-name">Carte mentale</div>
+            <p class="tool-card-desc">Organisez vos idées autour d'un sujet central, en branches et sous-branches.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/carte_mentale/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 8 : </span>8</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🎨</span>
+            <div class="tool-card-name">Sketchnote</div>
+            <p class="tool-card-desc">Dessinez, ajoutez des icônes, du texte et des images pour transformer vos idées en note visuelle.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/sketchnote/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 9 : </span>9</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🎴</span>
+            <div class="tool-card-name">Memory</div>
+            <p class="tool-card-desc">Créez votre jeu de memory pour mémoriser par association.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/memory/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 10 : </span>10</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🎙️</span>
+            <div class="tool-card-name">Podcast</div>
+            <p class="tool-card-desc">Enregistrez-vous ou importez un audio pour réviser le cours à l'oral.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/podcast/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 11 : </span>11</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🧩</span>
+            <div class="tool-card-name">Mots croisés</div>
+            <p class="tool-card-desc">Générez une grille de mots croisés à partir de vos notions clés.</p>
+            <a class="tool-card-cta" href="https://www.educol.net/generateur-de-mots-croises">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 12 : </span>12</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">💬</span>
+            <div class="tool-card-name">Bande dessinée</div>
+            <p class="tool-card-desc">Transformez un cours en bande dessinée, avec l'outil de la BnF.</p>
+            <a class="tool-card-cta" href="https://bdnf.bnf.fr/fr">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 13 : </span>13</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🎵</span>
+            <div class="tool-card-name">Cours en musique</div>
+            <p class="tool-card-desc">Transformez votre cours en chanson pour le mémoriser autrement.</p>
+            <a class="tool-card-cta" href="https://www.letudiant.fr/etudes/fac/transformer-son-cours-en-chanson-grace-a-lia-la-methode-infaillible-pour-reviser.html">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 14 : </span>14</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🚦</span>
+            <div class="tool-card-name">Grille d'auto-évaluation</div>
+            <p class="tool-card-desc">Où en êtes-vous sur chaque notion ? Auto-évaluez-vous en un clic.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/grille_evaluation/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 15 : </span>15</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🔍</span>
+            <div class="tool-card-name">Grille d'analyse</div>
+            <p class="tool-card-desc">Avant, pendant, après un exercice : la métacognition en 4 étapes.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/grille_metacognition/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-number"><span class="sr-only">Étape 16 : </span>16</div>
+          <svg class="tool-card-character" viewBox="0 0 680 620" aria-hidden="true"><use href="#mentorChar"/></svg>
+          <div class="tool-card-body">
+            <span class="tool-card-icon" aria-hidden="true">🗝️</span>
+            <div class="tool-card-name">Énigme finale</div>
+            <p class="tool-card-desc">Résolvez l'énigme pour devenir chevalier de la révision.</p>
+            <a class="tool-card-cta" href="https://rbrdingenierie-ui.github.io/enigme/">Ouvrir <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-card">
+        <span class="feedback-card-icon" aria-hidden="true">💬</span>
+        <div class="feedback-card-text">
+          <div class="feedback-card-title">Un dysfonctionnement, une idée ?</div>
+          <div class="feedback-card-desc">Signalez un dysfonctionnement ou proposez une idée d'amélioration.</div>
+        </div>
+        <a class="feedback-card-cta" href="https://rbrdingenierie-ui.github.io/idee_remontee/">Accéder <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="badges-panel">
+        <div class="badges-title"><span aria-hidden="true">🏅</span> Mes badges (<span id="badgeCount">0</span>/<span id="badgeTotal">43</span>)</div>
+        <div class="welcome-badge-row" id="welcomeBadgeRow"></div>
+        <div class="badges-grid" id="badgesGrid"></div>
+        <p class="badge-desc-hint" id="badgeDescHint">👆 Touchez un badge pour savoir comment l'obtenir.</p>
+        <div class="badge-desc-panel" id="badgeDescPanel" role="status" aria-live="polite">
+          <button type="button" class="badge-desc-close" id="badgeDescClose" aria-label="Fermer la description du badge">✕</button>
+          <div class="badge-desc-title" id="badgeDescTitle"></div>
+          <div class="badge-desc-text" id="badgeDescText"></div>
+          <div class="badge-desc-state" id="badgeDescState"></div>
+        </div>
+      </div>
+
+      <div class="account-utility-row">
+        <button type="button" id="logoutBtn" class="account-logout-btn">Se déconnecter</button>
+      </div>
+    </div>
+
+    <div class="finale-overlay" id="finaleOverlay" role="dialog" aria-modal="true" aria-labelledby="finaleMessage">
+      <svg class="finale-fireworks" id="finaleFireworks" viewBox="0 0 400 400" aria-hidden="true"></svg>
+      <div class="finale-content">
+        <div class="welcome-badge-char" aria-hidden="true">
+          <svg viewBox="0 0 680 620">
+            <defs>
+              <radialGradient id="finaleCharGlow" cx="50%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#FFF6E0"/>
+                <stop offset="100%" stop-color="#FFF6E0" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="340" cy="260" r="260" fill="url(#finaleCharGlow)"/>
+            <path class="sparkle sparkle-1" d="M100 80 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 z" fill="#B08D57"/>
+            <path class="sparkle sparkle-2" d="M580 110 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#168F7F"/>
+            <path class="sparkle sparkle-3" d="M70 330 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#E0591F"/>
+            <path class="sparkle sparkle-4" d="M600 360 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#B08D57"/>
+            <path class="sparkle sparkle-5" d="M140 500 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#168F7F"/>
+            <path class="sparkle sparkle-6" d="M560 500 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6 z" fill="#C0392B"/>
+            <path class="sparkle sparkle-7" d="M30 220 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5 z" fill="#8A5CB0"/>
+            <path class="sparkle sparkle-8" d="M630 240 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 z" fill="#E0591F"/>
+            <path class="sparkle sparkle-9" d="M90 450 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z" fill="#168F7F"/>
+            <use href="#mentorChar"/>
+          </svg>
+        </div>
+        <p class="finale-message" id="finaleMessage">🏆 Bravo, chevalier de la révision vous êtes devenu·e ! 🛡️<br><br>⚔️ Mais pour conserver ses pouvoirs, continuer à réviser vous devrez. ✨</p>
+        <button type="button" class="finale-close" id="finaleClose">Continuer</button>
+      </div>
+    </div>
+
+    <div class="finale-overlay" id="welcomeBadgeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcomeBadgeMessage">
+      <div class="finale-content">
+        <div class="welcome-badge-char" aria-hidden="true">
+          <svg viewBox="0 0 680 620">
+            <defs>
+              <radialGradient id="welcomeBadgeGlow" cx="50%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#FFF6E0"/>
+                <stop offset="100%" stop-color="#FFF6E0" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="340" cy="260" r="260" fill="url(#welcomeBadgeGlow)"/>
+            <path class="mentor-sparkle mentor-sparkle-1" d="M100 80 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 z" fill="#B08D57"/>
+            <path class="mentor-sparkle mentor-sparkle-2" d="M580 110 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#168F7F"/>
+            <path class="mentor-sparkle mentor-sparkle-3" d="M70 330 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#E0591F"/>
+            <path class="mentor-sparkle mentor-sparkle-4" d="M600 360 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#B08D57"/>
+            <path class="mentor-sparkle mentor-sparkle-5" d="M140 500 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#168F7F"/>
+            <path class="mentor-sparkle mentor-sparkle-6" d="M560 500 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6 z" fill="#C0392B"/>
+            <path class="mentor-sparkle mentor-sparkle-7" d="M30 220 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5 z" fill="#8A5CB0"/>
+            <path class="mentor-sparkle mentor-sparkle-8" d="M630 240 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 z" fill="#E0591F"/>
+            <path class="mentor-sparkle mentor-sparkle-9" d="M90 450 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z" fill="#168F7F"/>
+            <use href="#mentorChar"/>
+          </svg>
+        </div>
+        <p class="finale-message" id="welcomeBadgeMessage">✨ Jeune néophyte de la révision, bienvenue dans ton espace de révision. ✨<br><br>🎁 Ce premier badge tu reçois en guise de cadeau de bienvenue. 🏅<br><br>🌟 Que la force de la révision soit avec toi ! 🌟</p>
+        <button type="button" class="finale-close" id="welcomeBadgeClose">Continuer</button>
+      </div>
+    </div>
+
+    <div class="finale-overlay" id="newBadgeOverlay" role="dialog" aria-modal="true" aria-labelledby="newBadgeMessage">
+      <div class="finale-content">
+        <div class="welcome-badge-char" aria-hidden="true">
+          <svg viewBox="0 0 680 620">
+            <defs>
+              <radialGradient id="newBadgeGlow" cx="50%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#FFF6E0"/>
+                <stop offset="100%" stop-color="#FFF6E0" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="340" cy="260" r="260" fill="url(#newBadgeGlow)"/>
+            <path class="sparkle sparkle-1" d="M100 80 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 z" fill="#B08D57"/>
+            <path class="sparkle sparkle-2" d="M580 110 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#168F7F"/>
+            <path class="sparkle sparkle-3" d="M70 330 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#E0591F"/>
+            <path class="sparkle sparkle-4" d="M600 360 l8 21 21 8 -21 8 -8 21 -8 -21 -21 -8 21 -8 z" fill="#B08D57"/>
+            <path class="sparkle sparkle-5" d="M140 500 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7 z" fill="#168F7F"/>
+            <path class="sparkle sparkle-6" d="M560 500 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6 z" fill="#C0392B"/>
+            <path class="sparkle sparkle-7" d="M30 220 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5 z" fill="#8A5CB0"/>
+            <path class="sparkle sparkle-8" d="M630 240 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4 z" fill="#E0591F"/>
+            <path class="sparkle sparkle-9" d="M90 450 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z" fill="#168F7F"/>
+            <use href="#mentorChar"/>
+          </svg>
+        </div>
+        <p class="finale-message" id="newBadgeMessage">🎉 Bravo ! Obtenu, encore un autre badge.<br><br>⚔️ Ainsi, tu dois continuer.<br><br>🌟 Que la force de la révision soit avec toi ! 🌟</p>
+        <div class="new-badge-list" id="newBadgeList"></div>
+        <button type="button" class="finale-close" id="newBadgeClose">Continuer</button>
+      </div>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator" role="status" aria-live="polite">✅ Enregistré</div>
+
+    <footer>Benjamin RICHARD - Tous droits réservés</footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  const A11Y_PREFS_KEY = 'accueil-outils-a11y-prefs-v1';
+  let a11yPrefs = { font: false, contrast: false, scale: 1, falc: false, hoverRead: false };
+  try {
+    const raw = localStorage.getItem(A11Y_PREFS_KEY);
+    if (raw) a11yPrefs = Object.assign(a11yPrefs, JSON.parse(raw));
+  } catch (e) {}
+  function saveA11yPrefs() {
+    try { localStorage.setItem(A11Y_PREFS_KEY, JSON.stringify(a11yPrefs)); } catch (e) {}
+  }
+  function applyA11yPrefs() {
+    document.body.classList.toggle('a11y-font', a11yPrefs.font);
+    document.body.classList.toggle('a11y-contrast', a11yPrefs.contrast);
+    document.body.classList.toggle('falc-mode', a11yPrefs.falc);
+    document.documentElement.style.setProperty('--a11y-scale', a11yPrefs.scale);
+    document.getElementById('a11yFontBtn').setAttribute('aria-pressed', a11yPrefs.font ? 'true' : 'false');
+    document.getElementById('a11yContrastBtn').setAttribute('aria-pressed', a11yPrefs.contrast ? 'true' : 'false');
+    document.getElementById('falcModeBtn').setAttribute('aria-pressed', a11yPrefs.falc ? 'true' : 'false');
+    document.getElementById('hoverReadBtn').setAttribute('aria-pressed', a11yPrefs.hoverRead ? 'true' : 'false');
+  }
+  document.getElementById('a11yFontBtn').addEventListener('click', () => { a11yPrefs.font = !a11yPrefs.font; applyA11yPrefs(); saveA11yPrefs(); });
+  document.getElementById('a11yContrastBtn').addEventListener('click', () => { a11yPrefs.contrast = !a11yPrefs.contrast; applyA11yPrefs(); saveA11yPrefs(); });
+  document.getElementById('falcModeBtn').addEventListener('click', () => {
+    a11yPrefs.falc = !a11yPrefs.falc;
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    applyA11yPrefs(); saveA11yPrefs();
+  });
+  document.getElementById('hoverReadBtn').addEventListener('click', () => {
+    a11yPrefs.hoverRead = !a11yPrefs.hoverRead;
+    if (!a11yPrefs.hoverRead && window.speechSynthesis) window.speechSynthesis.cancel();
+    applyA11yPrefs(); saveA11yPrefs();
+  });
+  document.getElementById('a11ySizeUp').addEventListener('click', () => { a11yPrefs.scale = Math.min(1.6, Math.round((a11yPrefs.scale + 0.15) * 100) / 100); applyA11yPrefs(); saveA11yPrefs(); });
+  document.getElementById('a11ySizeDown').addEventListener('click', () => { a11yPrefs.scale = Math.max(0.85, Math.round((a11yPrefs.scale - 0.15) * 100) / 100); applyA11yPrefs(); saveA11yPrefs(); });
+  document.getElementById('a11ySizeReset').addEventListener('click', () => { a11yPrefs.scale = 1; applyA11yPrefs(); saveA11yPrefs(); });
+  applyA11yPrefs();
+
+  // ---- lecture au survol, sur l'integralite de la page ----
+  function attachHoverRead(el, getText) {
+    if (el.dataset.hoverReadAttached) return; // evite les doublons d'ecouteurs
+    el.dataset.hoverReadAttached = '1';
+    el.addEventListener('mouseenter', () => {
+      if (!a11yPrefs.hoverRead || !('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const text = getText ? getText() : el.textContent.trim();
+      if (!text) return;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'fr-FR'; utter.rate = 0.95;
+      window.speechSynthesis.speak(utter);
+    });
+    el.addEventListener('mouseleave', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
+    el.addEventListener('focusin', () => { if (a11yPrefs.hoverRead) el.dispatchEvent(new Event('mouseenter')); });
+    el.addEventListener('focusout', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); });
+  }
+
+  if ('speechSynthesis' in window) {
+    // cartes d'outils et de retour : nom + description assembles (pas le texte du bouton CTA)
+    document.querySelectorAll('.tool-card, .feedback-card').forEach(card => {
+      attachHoverRead(card, () => {
+        const nameEl = card.querySelector('.tool-card-name, .feedback-card-title');
+        const descEl = card.querySelector('.tool-card-desc, .feedback-card-desc');
+        return [nameEl && nameEl.textContent, descEl && descEl.textContent].filter(Boolean).join('. ');
+      });
+    });
+
+    // reste de la page : titres, messages, boutons, reglages -- tout element porteur de texte utile
+    const GENERIC_HOVER_SELECTOR = '.welcome-message, .tools-section-title, .tools-section-subtitle, .badges-title, .account-logout-btn, .mute-btn, .a11y-toggle-btn, .a11y-bar-label, .finale-message, .finale-close';
+    document.querySelectorAll(GENERIC_HOVER_SELECTOR).forEach(el => attachHoverRead(el));
+
+    // badges : regeneres a chaque rendu, on reattachera donc a chaque appel de renderBadges
+    window.attachBadgeHoverRead = function () {
+      document.querySelectorAll('.badge-item').forEach(el => {
+        attachHoverRead(el, () => {
+          const nameEl = el.querySelector('.badge-name');
+          return nameEl ? nameEl.textContent + (el.classList.contains('locked') ? ', pas encore débloqué' : ', débloqué') : '';
+        });
+      });
+    };
+    window.attachBadgeHoverRead();
+
+    // permet au script principal d'attacher la lecture au survol a du contenu cree
+    // apres coup, par exemple la liste des badges dans le popup de felicitations
+    window.attachHoverReadAll = function (root) {
+      (root || document).querySelectorAll(GENERIC_HOVER_SELECTOR + ', .new-badge-name, .new-badge-desc').forEach(el => attachHoverRead(el));
+    };
+  }
+
+  // memoriser qu'on part vers un outil, pour revenir au bon endroit avec le bouton "precedent" du navigateur
+  const toolsGrid = document.querySelector('.tools-grid');
+  if (toolsGrid) {
+    toolsGrid.addEventListener('click', (e) => {
+      const link = e.target.closest('.tool-card-cta');
+      if (link) {
+        try { sessionStorage.setItem('accueil-retour-outils', '1'); } catch (err) {}
+      }
+    });
+  }
+})();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCOMITn8IIbp6HFDIsmVp2yJkq5FG7MdUk",
+  authDomain: "boite-outils-apprendre.firebaseapp.com",
+  projectId: "boite-outils-apprendre",
+  storageBucket: "boite-outils-apprendre.firebasestorage.app",
+  messagingSenderId: "410422833113",
+  appId: "1:410422833113:web:cc718e2fb4312dc17ab3c8"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+// experimentalAutoDetectLongPolling : contourne les reseaux/proxys/antivirus qui bloquent
+// le flux WebChannel par defaut de Firestore (cause connue derriere les erreurs "unavailable")
+const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
+const MENU_URL = "https://rbrdingenierie-ui.github.io/menu_revision/";
+
+// ---------- calcul des 20 badges (identique a menu_ressources.html) ----------
+function toDate(createdAt) {
+  if (!createdAt) return new Date();
+  if (typeof createdAt.toDate === "function") return createdAt.toDate();
+  return new Date(createdAt);
+}
+function dayKey(date) {
+  return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+}
+function groupByDay(activity) {
+  const days = {};
+  activity.forEach(a => { days[dayKey(toDate(a.createdAt))] = true; });
+  return Object.keys(days).sort();
+}
+function computeDistinctDays(activity) { return groupByDay(activity).length; }
+function computeMaxStreak(activity) {
+  const sorted = groupByDay(activity);
+  if (sorted.length === 0) return 0;
+  let max = 1, current = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const diff = Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / 86400000);
+    if (diff === 1) { current += 1; max = Math.max(max, current); }
+    else if (diff > 1) { current = 1; }
+  }
+  return max;
+}
+function computeHasComeback(activity) {
+  const sorted = groupByDay(activity);
+  for (let i = 1; i < sorted.length; i++) {
+    if (Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / 86400000) >= 7) return true;
+  }
+  return false;
+}
+function computeComebackCount(activity) {
+  const sorted = groupByDay(activity);
+  let count = 0;
+  for (let i = 1; i < sorted.length; i++) {
+    if (Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / 86400000) >= 7) count++;
+  }
+  return count;
+}
+function computeHasSameDayMultiTool(activity) {
+  const byDay = {};
+  activity.forEach(a => {
+    const k = dayKey(toDate(a.createdAt));
+    if (!byDay[k]) byDay[k] = new Set();
+    byDay[k].add(a.tool);
+  });
+  return Object.values(byDay).some(tools => tools.size >= 2);
+}
+function computeStats(activity) {
+  const byTool = { fiche: [], agenda: [], carte: [], sketchnote: [], flashcards: [], planning: [], todo: [], memory: [], motscroises: [], podcast: [], enigme: [] };
+  activity.forEach(a => { if (byTool[a.tool]) byTool[a.tool].push(a); });
+  const distinctMatieres = new Set(activity.map(a => (a.matiere || "").trim().toLowerCase()).filter(Boolean));
+  const toolsUsed = new Set(activity.map(a => a.tool));
+  return {
+    total: activity.length,
+    countFiche: byTool.fiche.length, countAgenda: byTool.agenda.length,
+    countCarte: byTool.carte.length, countSketchnote: byTool.sketchnote.length,
+    countFlashcards: byTool.flashcards.length,
+    countPlanning: byTool.planning.length, countTodo: byTool.todo.length,
+    countMemory: byTool.memory.length, countMotsCroises: byTool.motscroises.length,
+    countPodcast: byTool.podcast.length,
+    countPodcastEnregistres: byTool.podcast.filter(a => a.colors === 1).length,
+    countEnigme: byTool.enigme.length,
+    toolsUsedCount: toolsUsed.size,
+    distinctDays: computeDistinctDays(activity),
+    maxStreak: computeMaxStreak(activity),
+    hasComeback: computeHasComeback(activity),
+    comebackCount: computeComebackCount(activity),
+    hasSameDayMultiTool: computeHasSameDayMultiTool(activity),
+    distinctMatieres: distinctMatieres.size,
+    maxCarteColors: Math.max(0, ...byTool.carte.map(a => a.colors || 0)),
+    maxSketchnoteDepth: Math.max(0, ...byTool.sketchnote.map(a => a.depth || 0)),
+    maxAgendaDepth: Math.max(0, ...byTool.agenda.map(a => a.depth || 0)),
+    maxFicheDepth: Math.max(0, ...byTool.fiche.map(a => a.depth || 0)),
+    totalFlashcardsCards: byTool.flashcards.reduce((sum, a) => sum + (a.depth || 0), 0)
+  };
+}
+const BADGES = [
+  { id: "bienvenue", icon: "🎁", name: "Bienvenue", desc: "Cadeau du maître des révisions, pour votre arrivée dans l'espace de révision.", check: s => true },
+  { id: "premiere-fiche", icon: "📝", name: "Première fiche", desc: "Créez votre première fiche studiométrique.", check: s => s.countFiche >= 1 },
+  { id: "premiere-carte", icon: "🗺️", name: "Première carte", desc: "Créez votre première carte mentale.", check: s => s.countCarte >= 1 },
+  { id: "premier-sketchnote", icon: "🎨", name: "Premier sketchnote", desc: "Créez votre premier sketchnote.", check: s => s.countSketchnote >= 1 },
+  { id: "premier-planning", icon: "📅", name: "Premier planning", desc: "Créez votre premier agenda de révision.", check: s => s.countAgenda >= 1 },
+  { id: "touche-a-tout", icon: "🧭", name: "Touche-à-tout", desc: "Essayez les 4 outils au moins une fois chacun.", check: s => s.toolsUsedCount >= 4 },
+  { id: "fiches-assidues", icon: "📚", name: "Fiches assidues", desc: "10 fiches studiométriques archivées.", check: s => s.countFiche >= 10 },
+  { id: "cartographe", icon: "🌳", name: "Cartographe", desc: "10 cartes mentales archivées.", check: s => s.countCarte >= 10 },
+  { id: "creatif", icon: "🖌️", name: "Créatif·ve", desc: "10 sketchnotes archivés.", check: s => s.countSketchnote >= 10 },
+  { id: "bien-organise", icon: "🗓️", name: "Bien organisé·e", desc: "10 agendas de révision archivés.", check: s => s.countAgenda >= 10 },
+  { id: "trois-jours", icon: "🔥", name: "3 jours de révision", desc: "Une activité (n'importe quel outil) sur 3 jours différents.", check: s => s.maxStreak >= 3 },
+  { id: "semaine-studieuse", icon: "📆", name: "Semaine studieuse", desc: "7 jours différents d'activité, tous outils confondus.", check: s => s.distinctDays >= 7 },
+  { id: "retour-en-force", icon: "🔄", name: "Retour en force", desc: "Reprenez après une pause d'une semaine ou plus.", check: s => s.hasComeback },
+  { id: "multicolore", icon: "🌈", name: "Multicolore", desc: "Une carte mentale avec 5 couleurs de branches différentes ou plus.", check: s => s.maxCarteColors >= 5 },
+  { id: "illustrateur", icon: "🖼️", name: "Illustrateur·rice", desc: "Un sketchnote avec 10 éléments placés ou plus.", check: s => s.maxSketchnoteDepth >= 10 },
+  { id: "programme-charge", icon: "📖", name: "Programme chargé", desc: "Un agenda avec 10 notions à réviser ou plus.", check: s => s.maxAgendaDepth >= 10 },
+  { id: "fiche-complete", icon: "✅", name: "Fiche complète", desc: "Une fiche studiométrique bien remplie.", check: s => s.maxFicheDepth >= 8 },
+  { id: "multi-matieres", icon: "🎓", name: "Multi-matières", desc: "Des documents archivés dans 3 matières différentes ou plus.", check: s => s.distinctMatieres >= 3 },
+  { id: "vingt-cinq-docs", icon: "🌟", name: "25 documents", desc: "25 documents archivés au total, tous outils confondus.", check: s => s.total >= 25 },
+  { id: "cinquante-docs", icon: "🏅", name: "50 documents", desc: "50 documents archivés au total, tous outils confondus.", check: s => s.total >= 50 },
+  { id: "grand-reviseur", icon: "🏆", name: "Grand·e réviseur·se", desc: "100 documents archivés au total, tous outils confondus.", check: s => s.total >= 100 },
+  { id: "premier-paquet", icon: "🃏", name: "Premier paquet", desc: "Créez votre premier paquet de flashcards.", check: s => s.countFlashcards >= 1 },
+  { id: "collectionneur-cartes", icon: "🗃️", name: "Collectionneur·euse", desc: "10 paquets de flashcards archivés.", check: s => s.countFlashcards >= 10 },
+  { id: "cent-cartes", icon: "🔢", name: "Cent cartes", desc: "100 flashcards créées au total, tous paquets confondus.", check: s => s.totalFlashcardsCards >= 100 },
+  { id: "explorateur-complet", icon: "🌍", name: "Explorateur·rice complet·ète", desc: "Essayez les 5 outils au moins une fois chacun.", check: s => s.toolsUsedCount >= 5 },
+  { id: "journee-productive", icon: "⚡", name: "Journée productive", desc: "Utilisez 2 outils différents le même jour.", check: s => s.hasSameDayMultiTool },
+  { id: "cent-cinquante-docs", icon: "💎", name: "150 documents", desc: "150 documents archivés au total, tous outils confondus.", check: s => s.total >= 150 },
+  { id: "fidele-au-poste", icon: "🔄", name: "Fidèle au poste", desc: "Reprenez après une pause d'une semaine ou plus, à 3 reprises.", check: s => s.comebackCount >= 3 },
+  { id: "semaine-parfaite", icon: "🌟", name: "Semaine parfaite", desc: "7 jours de suite avec une activité, sans interruption.", check: s => s.maxStreak >= 7 },
+  { id: "mois-parfait", icon: "🌕", name: "Mois parfait", desc: "30 jours de suite avec une activité, sans interruption.", check: s => s.maxStreak >= 30 },
+  { id: "trois-cents-docs", icon: "💰", name: "300 documents", desc: "300 documents archivés au total, tous outils confondus.", check: s => s.total >= 300 },
+  { id: "premiere-semaine-planifiee", icon: "🗓️", name: "Semaine planifiée", desc: "Créez votre premier planning hebdomadaire.", check: s => s.countPlanning >= 1 },
+  { id: "premiere-todo", icon: "✅", name: "Première liste", desc: "Créez votre première liste de tâches de révision.", check: s => s.countTodo >= 1 },
+  { id: "premier-memory", icon: "🎴", name: "Premier memory", desc: "Créez votre premier jeu de memory.", check: s => s.countMemory >= 1 },
+  { id: "premiers-mots-croises", icon: "🧩", name: "Premiers mots croisés", desc: "Créez votre première grille de mots croisés.", check: s => s.countMotsCroises >= 1 },
+  { id: "panoplie-revision-active", icon: "🎯", name: "Panoplie de révision active", desc: "Utilisez flashcards, memory et mots croisés : trois façons de vous tester activement.", check: s => s.countFlashcards >= 1 && s.countMemory >= 1 && s.countMotsCroises >= 1 },
+  { id: "premiere-utilisation-podcast", icon: "🎙️", name: "Premier podcast", desc: "Utilisez l'outil podcast pour la première fois.", check: s => s.countPodcast >= 1 },
+  { id: "premier-enregistrement", icon: "🔴", name: "Premier enregistrement", desc: "Enregistrez votre voix pour la première fois.", check: s => s.countPodcastEnregistres >= 1 },
+  { id: "cinq-enregistrements", icon: "🎤", name: "5 enregistrements", desc: "Enregistrez 5 podcasts.", check: s => s.countPodcastEnregistres >= 5 },
+  { id: "dix-enregistrements", icon: "🎧", name: "10 enregistrements", desc: "Enregistrez 10 podcasts.", check: s => s.countPodcastEnregistres >= 10 },
+  { id: "quinze-enregistrements", icon: "📼", name: "15 enregistrements", desc: "Enregistrez 15 podcasts.", check: s => s.countPodcastEnregistres >= 15 },
+  { id: "vingt-enregistrements", icon: "📻", name: "20 enregistrements", desc: "Enregistrez 20 podcasts.", check: s => s.countPodcastEnregistres >= 20 },
+  { id: "chevalier-de-la-revision", icon: "🛡️", name: "Chevalier de la révision", desc: "Résolvez l'énigme finale.", check: s => s.countEnigme >= 1 }
+];
+
+function escapeAttr(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+
+function renderFireworks() {
+  const svg = document.getElementById("finaleFireworks");
+  const bursts = [
+    { cx: 100, cy: 100, delay: 0 },
+    { cx: 300, cy: 120, delay: 0.15 },
+    { cx: 200, cy: 200, delay: 0.3 },
+    { cx: 90, cy: 280, delay: 0.45 },
+    { cx: 310, cy: 270, delay: 0.6 },
+    { cx: 200, cy: 80, delay: 0.75 }
+  ];
+  const colors = ["#E0591F", "#B08D57", "#168F7F", "#1F3864", "#C0392B"];
+  let svgContent = "";
+  bursts.forEach((burst, bi) => {
+    const color = colors[bi % colors.length];
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * 2 * Math.PI;
+      const x2 = burst.cx + Math.cos(angle) * 45;
+      const y2 = burst.cy + Math.sin(angle) * 45;
+      svgContent += `<line class="firework-particle" x1="${burst.cx}" y1="${burst.cy}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="3" stroke-linecap="round" style="animation-delay:${burst.delay}s"/>`;
+    }
+  });
+  svg.innerHTML = svgContent;
+}
+
+const FINALE_VUE_KEY = "accueil-grande-finale-vue-v1";
+document.getElementById("finaleClose").addEventListener("click", () => {
+  document.getElementById("finaleOverlay").classList.remove("show");
+});
+
+const ACTIVITY_KEY = "accueil-activity-v1";
+const UNLOCKED_BADGES_KEY = "accueil-badges-debloques-v1";
+
+function getLocalActivity() {
+  try {
+    const raw = localStorage.getItem(ACTIVITY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { return []; }
+}
+function getLocalUnlockedBadges() {
+  try {
+    const raw = localStorage.getItem(UNLOCKED_BADGES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { return []; }
+}
+function saveLocalUnlockedBadges(arr) {
+  try { localStorage.setItem(UNLOCKED_BADGES_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+
+// fusionne deux listes d'activite sans doublons (une entree = un evenement reel, identifie par outil + horodatage)
+function mergeActivityArrays(a, b) {
+  const seen = new Set();
+  const merged = [];
+  [...a, ...b].forEach(entry => {
+    const key = (entry.tool || '') + '|' + (entry.createdAt || '');
+    if (!seen.has(key)) { seen.add(key); merged.push(entry); }
+  });
+  return merged;
+}
+
+// synchronise l'activite locale avec le cloud (Firestore) : lit ce qui existe deja pour ce compte,
+// fusionne avec l'activite de cet appareil, puis sauvegarde le resultat aux deux endroits.
+// En cas d'echec (reseau, service indisponible...), la page continue de fonctionner avec les
+// donnees locales uniquement -- rien ne casse si le cloud est injoignable.
+async function syncActivityWithCloud(uid) {
+  const localActivity = getLocalActivity();
+  try {
+    const ref = doc(db, "users", uid);
+    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("delai depasse")), 6000));
+    const snap = await Promise.race([getDoc(ref), timeoutPromise]);
+    const cloudActivity = snap.exists() && Array.isArray(snap.data().activity) ? snap.data().activity : [];
+    const merged = mergeActivityArrays(localActivity, cloudActivity);
+    try { localStorage.setItem(ACTIVITY_KEY, JSON.stringify(merged)); } catch (e) {}
+    await Promise.race([
+      setDoc(ref, { activity: merged, updatedAt: new Date().toISOString() }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("delai depasse")), 6000))
+    ]);
+    return { ok: true, count: merged.length };
+  } catch (e) {
+    console.warn("Synchronisation cloud impossible, poursuite avec les donnees locales uniquement :", e);
+    return { ok: false, error: e.code || e.message || String(e) };
+  }
+}
+
+// rend chaque badge cliquable pour afficher comment l'obtenir.
+// Indispensable sur telephone : l'attribut title ne s'affiche qu'au survol souris.
+function attachBadgeDescription() {
+  const panel = document.getElementById("badgeDescPanel");
+  const titleEl = document.getElementById("badgeDescTitle");
+  const textEl = document.getElementById("badgeDescText");
+  const stateEl = document.getElementById("badgeDescState");
+  const hintEl = document.getElementById("badgeDescHint");
+  if (!panel) return;
+
+  function afficher(el) {
+    document.querySelectorAll(".badge-item.selected").forEach(b => b.classList.remove("selected"));
+    el.classList.add("selected");
+    const unlocked = el.dataset.badgeUnlocked === "1";
+    titleEl.textContent = el.dataset.badgeName;
+    textEl.textContent = el.dataset.badgeDesc;
+    stateEl.textContent = unlocked ? "✅ Badge débloqué" : "🔒 Pas encore débloqué";
+    stateEl.className = "badge-desc-state " + (unlocked ? "unlocked" : "locked");
+    panel.classList.add("show");
+    if (hintEl) hintEl.style.display = "none";
+  }
+
+  document.querySelectorAll(".badge-item").forEach(el => {
+    if (el.dataset.descAttached) return;
+    el.dataset.descAttached = "1";
+    el.addEventListener("click", () => afficher(el));
+    el.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); afficher(el); }
+    });
+  });
+
+  // fermeture : utile surtout sur mobile, ou le panneau est ancre en bas de l'ecran
+  const closeBtn = document.getElementById("badgeDescClose");
+  if (closeBtn && !closeBtn.dataset.attached) {
+    closeBtn.dataset.attached = "1";
+    closeBtn.addEventListener("click", fermerPanneau);
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape" && panel.classList.contains("show")) fermerPanneau();
+    });
+  }
+  function fermerPanneau() {
+    panel.classList.remove("show");
+    document.querySelectorAll(".badge-item.selected").forEach(b => b.classList.remove("selected"));
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+}
+
+// affiche le popup de felicitations. Un seul popup annonce tous les badges
+// obtenus depuis la derniere visite, meme s'il y en a plusieurs.
+function afficherPopupNouveauxBadges(nouveaux) {
+  const overlay = document.getElementById("newBadgeOverlay");
+  const liste = document.getElementById("newBadgeList");
+  if (!overlay || !liste) return;
+  // ne pas empiler deux popups : la grande finale des 43 badges est prioritaire
+  if (document.getElementById("finaleOverlay").classList.contains("show")) return;
+  if (document.getElementById("welcomeBadgeOverlay").classList.contains("show")) return;
+
+  liste.innerHTML = nouveaux.map(b => `
+    <div class="new-badge-line">
+      <span class="new-badge-icon" aria-hidden="true">${b.icon}</span>
+      <div class="new-badge-texts">
+        <div class="new-badge-name">${b.name}</div>
+        <div class="new-badge-desc">${escapeAttr(b.desc)}</div>
+      </div>
+    </div>`).join("");
+
+  overlay.classList.add("show");
+  if (window.attachHoverReadAll) window.attachHoverReadAll(overlay);
+}
+
+function renderBadges() {
+  const activity = getLocalActivity();
+  const previouslyUnlocked = getLocalUnlockedBadges();
+  const stats = computeStats(activity);
+  const previousSet = new Set(previouslyUnlocked);
+  const nowUnlocked = new Set();
+  BADGES.forEach(b => { if (b.check(stats)) nowUnlocked.add(b.id); });
+
+  if (nowUnlocked.size !== previousSet.size || [...nowUnlocked].some(id => !previousSet.has(id))) {
+    saveLocalUnlockedBadges([...nowUnlocked]);
+  }
+
+  document.getElementById("badgeCount").textContent = nowUnlocked.size;
+  document.getElementById("badgeTotal").textContent = BADGES.length;
+  function badgeItemHtml(b, unlocked, isNew) {
+    return `<div class="badge-item ${unlocked ? "unlocked" : "locked"}${isNew ? " newly-unlocked" : ""}" title="${escapeAttr(b.desc)}"
+      role="button" tabindex="0" data-badge-name="${escapeAttr(b.name)}" data-badge-desc="${escapeAttr(b.desc)}" data-badge-unlocked="${unlocked ? "1" : "0"}">
+      <div class="badge-icon" aria-hidden="true">${b.icon}</div>
+      <div class="badge-name">${b.name}</div>
+    </div>`;
+  }
+  const welcomeBadgeDef = BADGES.find(b => b.id === "bienvenue");
+  document.getElementById("welcomeBadgeRow").innerHTML = badgeItemHtml(welcomeBadgeDef, nowUnlocked.has("bienvenue"), false);
+  document.getElementById("badgesGrid").innerHTML = BADGES.filter(b => b.id !== "bienvenue").map(b => {
+    const unlocked = nowUnlocked.has(b.id);
+    const isNew = unlocked && !previousSet.has(b.id);
+    return badgeItemHtml(b, unlocked, isNew);
+  }).join("");
+  if (window.attachBadgeHoverRead) window.attachBadgeHoverRead();
+  attachBadgeDescription();
+
+  // badges obtenus depuis la derniere visite : un seul popup les annonce tous.
+  // On exclut le badge de bienvenue, qui a deja son propre popup a la premiere connexion.
+  const nouveaux = BADGES.filter(b => b.id !== "bienvenue" && nowUnlocked.has(b.id) && !previousSet.has(b.id));
+  if (nouveaux.length > 0 && previousSet.size > 0) {
+    afficherPopupNouveauxBadges(nouveaux);
+  }
+
+  if (nowUnlocked.size === BADGES.length) {
+    let dejaVue = false;
+    try { dejaVue = localStorage.getItem(FINALE_VUE_KEY) === "1"; } catch (e) {}
+    if (!dejaVue) {
+      renderFireworks();
+      document.getElementById("finaleOverlay").classList.add("show");
+      try { localStorage.setItem(FINALE_VUE_KEY, "1"); } catch (e) {}
+    }
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await fbSignOut(auth);
+  window.location.href = "https://rbrdingenierie-ui.github.io/deconnexion/";
+});
+
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+const WELCOME_FIRST_NORMAL = [
+  nom => `✨ Bienvenue, jeune néophyte de la révision !<br><br>Dans votre espace apprenant, un ensemble d'outils vous trouverez.<br><br>Si vous les utilisez régulièrement, chevalier de la révision vous serez, et réviser vous aimerez. 🎓`,
+  nom => `🌟 Ah ! Un nouveau visage dans cet espace, je vois.<br><br>De nombreux outils à votre disposition sont.<br><br>Avec constance les utiliser, vous devez, et vos efforts récompensés seront. 🏅`
+];
+const WELCOME_FIRST_SIMPLE = [
+  nom => `Bienvenue ! 👋<br><br>Vous êtes dans votre espace de révision.<br><br>Vous allez trouver plusieurs outils ici.<br><br>Utilisez-les souvent.<br><br>Vous deviendrez fort·e en révision.<br><br>Et vous aimerez réviser.`
+];
+const WELCOME_BACK_NORMAL = [
+  nom => `👋 De retour, vous êtes !<br><br>Content de vous revoir, je suis. ✨`,
+  nom => `🔥 Vers le titre de chevalier, chaque visite vous rapproche.<br><br>Continuer, vous devez.`,
+  nom => `🌱 La régularité, la clé du succès elle est.<br><br>Prêt·e à progresser, êtes-vous ? 💪`,
+  nom => `🌟 Encore une fois là, vous êtes !<br><br>La persévérance, la voie du succès elle est.`,
+  nom => `📚 Pour une nouvelle session, prêt·e êtes-vous ?<br><br>Même petit, chaque effort compte.`,
+  nom => `✨ Impressionné par votre constance, je suis.<br><br>Peu à peu, la maîtrise, vous atteignez.`,
+  nom => `🎯 Nouvelle occasion, voici !<br><br>Chaque jour réviser, la clé du succès c'est.`,
+  nom => `🔔 Patiemment, vos outils vous attendent.<br><br>Du temps aujourd'hui, leur consacrer, allez-vous ?`,
+  nom => `🌙 Encore présent·e, vous êtes.<br><br>Cette régularité, précieuse elle est.`,
+  nom => `💫 De nouveau ici, vous voilà !<br><br>Vers la maîtrise, un pas de plus, vous faites.`,
+  nom => `🚀 Votre motivation ne faiblit pas, je vois.<br><br>Ainsi, sûrement, l'on progresse.`,
+  nom => `🏆 Toujours là, vous êtes !<br><br>De petites habitudes, les grands progrès naissent.`,
+  nom => `🌸 Réjoui par votre retour, je suis.<br><br>Pas à pas, chevalier de la révision, vous devenez.`,
+  nom => `🌿 Sans cesse, vos connaissances grandissent.<br><br>Fier de votre parcours, je suis.`,
+  nom => `🌤️ Un nouveau jour pour progresser, voici !<br><br>Avec vous, la force de la révision est.`,
+  nom => `🧩 Pièce par pièce, votre savoir se construit.<br><br>Continuer ainsi, vous devez.`,
+  nom => `🕰️ Jamais perdu, le temps que vous investissez, n'est.<br><br>Fier de vous, je suis.`,
+  nom => `🌊 Vague après vague, votre progression avance.<br><br>Loin, elle vous mènera.`,
+  nom => `🔑 Entre vos mains, la clé de la réussite elle est.<br><br>L'utiliser encore, vous devez.`,
+  nom => `🎈 Léger, l'effort d'aujourd'hui est.<br><br>Grand, votre avenir en révision sera.`
+];
+const WELCOME_BACK_SIMPLE = [
+  nom => `Bonjour ! 👋<br><br>Vous revenez dans votre espace de révision.<br><br>Continuez à utiliser vos outils.<br><br>Vous progressez petit à petit. 🌱`,
+  nom => `Vous revoilà ! ✨<br><br>C'est bien de continuer à réviser.<br><br>Regardez vos badges plus bas.`,
+  nom => `Bonjour ! 👋<br><br>Vous revenez encore.<br><br>C'est très bien.<br><br>Vos badges vous attendent.`,
+  nom => `Prêt·e pour aujourd'hui ? 📚<br><br>Chaque effort compte.<br><br>Continuez comme ça.`,
+  nom => `Vous êtes régulier·ère ! ✨<br><br>Vous progressez petit à petit.<br><br>Bravo.`,
+  nom => `Nouvelle journée ! 🎯<br><br>Réviser un peu chaque jour aide beaucoup.<br><br>À vous de jouer.`,
+  nom => `Vous revenez ! 🔔<br><br>Vos outils vous attendent.<br><br>Prenez un peu de temps aujourd'hui.`,
+  nom => `Vous êtes encore là. 🌙<br><br>C'est très bien.<br><br>Continuez comme ça.`,
+  nom => `De nouveau ici ! 💫<br><br>Chaque visite vous aide à progresser.<br><br>Continuons ensemble.`,
+  nom => `Vous ne lâchez rien ! 🚀<br><br>C'est comme ça qu'on progresse.<br><br>Quel outil choisissez-vous aujourd'hui ?`,
+  nom => `Toujours là ! 🏆<br><br>Les petites habitudes font les grands progrès.<br><br>Continuons ensemble.`,
+  nom => `Ça fait plaisir de vous revoir. 🌸<br><br>Vous progressez petit à petit.<br><br>Prêt·e à continuer ?`,
+  nom => `Vos connaissances grandissent sans cesse. 🌿<br><br>Je suis fier·ère de votre parcours.`,
+  nom => `Un nouveau jour pour progresser ! 🌤️<br><br>La force de la révision est avec vous.`,
+  nom => `Votre savoir se construit petit à petit. 🧩<br><br>Continuez comme ça.`,
+  nom => `Le temps que vous passez à réviser n'est jamais perdu. 🕰️<br><br>Je suis fier·ère de vous.`,
+  nom => `Votre progression avance petit à petit. 🌊<br><br>Elle vous mènera loin.`,
+  nom => `La clé de la réussite est entre vos mains. 🔑<br><br>Utilisez-la encore et encore.`,
+  nom => `L'effort d'aujourd'hui est léger. 🎈<br><br>Votre avenir en révision sera grand.`,
+  nom => `Bon retour parmi nous ! 🌈<br><br>Chaque petit pas compte.<br><br>Continuez à votre rythme.`
+];
+
+// fichiers audio libres de droits choisis (Pixabay) — a placer dans le meme dossier que cette page
+const STING_FIRST_VISIT = "sting-premiere-connexion.mp3";   // "Rise of the Sword Hero" (Magiksolo)
+const STING_RETURN_POOL = [
+  "sting-retour-1.mp3",  // "Strong Spirit (Winner Epic)" (AlexGrohl)
+  "sting-retour-2.mp3"   // "Space Fanfare" (Luis_Humanoide)
+];
+let currentStingAudio = null;
+const muteBtn = document.getElementById("muteBtn");
+
+// le choix de couper le son vaut pour toute la session : au retour d'un outil, la musique
+// ne se relance pas. sessionStorage s'efface a la fermeture du navigateur, donc a la
+// prochaine connexion la musique repartira normalement.
+const SON_COUPE_KEY = "accueil-son-coupe-session";
+function sonEstCoupe() {
+  try { return sessionStorage.getItem(SON_COUPE_KEY) === "1"; } catch (e) { return false; }
+}
+function memoriserSonCoupe(coupe) {
+  try {
+    if (coupe) sessionStorage.setItem(SON_COUPE_KEY, "1");
+    else sessionStorage.removeItem(SON_COUPE_KEY);
+  } catch (e) {}
+}
+// reflete l'etat memorise des le chargement, avant meme que la musique ne demarre
+if (sonEstCoupe()) muteBtn.textContent = "🔊 Remettre le son";
+
+function playWelcomeSting(isFirstVisit) {
+  if (sonEstCoupe()) {
+    muteBtn.textContent = "🔊 Remettre le son";
+    return;
+  }
+  try {
+    const file = isFirstVisit ? STING_FIRST_VISIT : pickRandom(STING_RETURN_POOL);
+    const audio = new Audio(file);
+    audio.volume = 0.5;
+    currentStingAudio = audio;
+    audio.addEventListener("ended", () => { muteBtn.textContent = "🔊 Remettre le son"; });
+    audio.play().catch(() => {
+      // autoplay bloque par le navigateur : le bouton permettra de lancer la lecture au clic
+      muteBtn.textContent = "🔊 Remettre le son";
+    });
+  } catch (e) { /* fichier absent ou erreur : on ignore silencieusement */ }
+}
+muteBtn.addEventListener("click", () => {
+  if (!currentStingAudio) {
+    // aucun audio en cours (musique deja coupee cette session) : on relance depuis le debut
+    memoriserSonCoupe(false);
+    playWelcomeSting(false);
+    muteBtn.textContent = "🔇 Couper le son";
+    return;
+  }
+  if (currentStingAudio.paused) {
+    currentStingAudio.play().catch(() => {});
+    memoriserSonCoupe(false);
+    muteBtn.textContent = "🔇 Couper le son";
+  } else {
+    currentStingAudio.pause();
+    memoriserSonCoupe(true);
+    muteBtn.textContent = "🔊 Remettre le son";
+  }
+});
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = MENU_URL;
+    return;
+  }
+
+  // synchronise avec le cloud avant d'afficher le contenu, pour eviter que le nombre
+  // de badges affiche ne "saute" une fois la synchronisation terminee
+  const syncResult = await syncActivityWithCloud(user.uid);
+
+  document.getElementById("loadingMsg").hidden = true;
+  document.getElementById("pageContent").hidden = false;
+
+  // confirme visuellement que la progression est bien sauvegardee en ligne
+  if (syncResult && syncResult.ok) {
+    const saveIndicator = document.getElementById("saveIndicator");
+    saveIndicator.classList.add("show");
+    setTimeout(() => saveIndicator.classList.remove("show"), 2600);
+  }
+
+  let retourOutils = false;
+  try { retourOutils = sessionStorage.getItem("accueil-retour-outils") === "1"; } catch (e) {}
+  if (retourOutils) {
+    try { sessionStorage.removeItem("accueil-retour-outils"); } catch (e) {}
+    requestAnimationFrame(() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.getElementById("toolsSection").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+  }
+
+  // le prenom vient directement du compte d'authentification (fiable, aucun reseau requis) :
+  // enregistre a l'inscription via updateProfile(cred.user, { displayName: "Prenom Nom" })
+  const prenom = user.displayName ? user.displayName.split(" ")[0] : null;
+
+  const LOGIN_COUNT_KEY = "accueil-login-count-v1";
+  let loginCount = 0;
+  try { loginCount = parseInt(localStorage.getItem(LOGIN_COUNT_KEY) || "0", 10); } catch (e) {}
+  try { localStorage.setItem(LOGIN_COUNT_KEY, String(loginCount + 1)); } catch (e) {}
+
+  const isFirstVisit = loginCount === 0;
+  playWelcomeSting(isFirstVisit);
+  const normalPool = isFirstVisit ? WELCOME_FIRST_NORMAL : WELCOME_BACK_NORMAL;
+  const simplePool = isFirstVisit ? WELCOME_FIRST_SIMPLE : WELCOME_BACK_SIMPLE;
+  document.getElementById("welcomeMessageNormal").innerHTML = pickRandom(normalPool)();
+  document.getElementById("welcomeMessageSimple").innerHTML = pickRandom(simplePool)();
+
+  renderBadges();
+
+  if (isFirstVisit) {
+    let welcomeBadgeSeen = false;
+    try { welcomeBadgeSeen = localStorage.getItem("accueil-welcome-badge-vue-v1") === "1"; } catch (e) {}
+    if (!welcomeBadgeSeen) {
+      document.getElementById("welcomeBadgeOverlay").classList.add("show");
+      try { localStorage.setItem("accueil-welcome-badge-vue-v1", "1"); } catch (e) {}
+    }
+  }
+
+  // apercu de test : ajoutez ?test_finale=1 a l'adresse pour voir la celebration a la demande,
+  // sans avoir a debloquer reellement les 30 badges. N'affecte aucune donnee reelle.
+  if (new URLSearchParams(location.search).get("test_finale") === "1") {
+    renderFireworks();
+    document.getElementById("finaleOverlay").classList.add("show");
+  }
+});
+document.getElementById("welcomeBadgeClose").addEventListener("click", () => {
+  document.getElementById("welcomeBadgeOverlay").classList.remove("show");
+});
+document.getElementById("newBadgeClose").addEventListener("click", () => {
+  document.getElementById("newBadgeOverlay").classList.remove("show");
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+});
+</script>
+
+</body>
+</html>
